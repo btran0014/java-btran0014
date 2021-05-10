@@ -1,4 +1,5 @@
 package java_exercises;
+
 import java.math.*;
 import java.util.Scanner;
 

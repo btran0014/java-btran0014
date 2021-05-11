@@ -1,7 +1,7 @@
 package java_oop_practice_questions;
 
 public class Circle {
-    double radius = 10.0;
+    double radius;
     final double PI = 3.14159;
     Circle(double radius){
         this.radius = radius;
@@ -16,8 +16,8 @@ public class Circle {
         return(PI*radius*radius);
     }
     public void output(){
-        System.out.println(this.diameter());
-        System.out.println(this.circumference());
-        System.out.println(this.area());
+        System.out.println("Radius: " + radius + " Diameter: " +  this.diameter());
+        System.out.println("Circumference: " + Math.round(this.circumference()*100)/100.0);
+        System.out.println("Area: " + Math.round(this.area()*100)/100.0);
     }
 }

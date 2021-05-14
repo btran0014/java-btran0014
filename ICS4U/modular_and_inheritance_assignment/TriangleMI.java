@@ -13,10 +13,10 @@ public class TriangleMI {
         this.side2 = side2;
     }
     public double area(){
-        return((base*height)/2);
+        return(Math.round(((base*height)/2)*100)/100.0);
     }
     public double perimeter(){
-        return(base+side1+side2);
+        return(Math.round((base+side1+side2)*100)/100.0);
     }
     public void output(){
         System.out.println("The area of your triangle is: " + this.area());

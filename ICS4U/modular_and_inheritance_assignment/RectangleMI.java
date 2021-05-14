@@ -4,15 +4,20 @@ public class RectangleMI {
     double length;
     private double width;
 
+    RectangleMI(){
+        length = 1.0;
+        width = 1.0;
+    }
+
     RectangleMI(double length, double width){
         this.length = length;
         this.width = width;
     }
-    private double area(){
-        return(length*width);
+    double area(){
+        return(Math.round((length*width)*100)/100.0);
     }
-    private double perimeter(){
-        return(length*2 + width*2);
+    double perimeter(){
+        return(Math.round((length*2 + width*2)*100)/100.0);
     }
     public void output(){
         System.out.println("The area for your rectangle is: " + this.area());

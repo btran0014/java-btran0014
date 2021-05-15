@@ -2,7 +2,7 @@ package modular_and_inheritance_assignment;
 
 public class SquareMI extends RectangleMI {
     SquareMI(){
-        length = 1.0;
+        this(1.0);
     }
     SquareMI(double length){
         this.length = length;

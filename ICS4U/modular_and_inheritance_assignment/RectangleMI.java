@@ -1,12 +1,11 @@
 package modular_and_inheritance_assignment;
 
-public class RectangleMI {
+public class RectangleMI extends TwoDShape{
     double length;
     private double width;
 
     RectangleMI(){
-        length = 1.0;
-        width = 1.0;
+        this(1.0, 1.0);
     }
 
     RectangleMI(double length, double width){

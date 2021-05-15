@@ -1,11 +1,14 @@
 package modular_and_inheritance_assignment;
 
-public class TriangleMI {
+public class TriangleMI extends TwoDShape {
     double base;
     double height;
     double side1;
     double side2;
 
+    TriangleMI(){
+        this(1.0, 1.0, 1.0, 1.0);
+    }
     TriangleMI(double base, double height, double side1, double side2){
         this.base = base;
         this.height = height;

@@ -1,17 +1,22 @@
 package paintgame;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt. event.KeyEvent;
+import java.awt.Graphics2D;
+import java.awt.Graphics;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import javax.lang.model.util.ElementScanner6;
 import javax.swing.ImageIcon;
 
-public class GameModel extends JPanel implements ActionListener{
+public class GameModel extends JPanel implements ActionListener {
 
     private Dimension d;
     private final Font smallFont = new Font("Proxima Nova", Font.BOLD, 14);
@@ -22,7 +27,7 @@ public class GameModel extends JPanel implements ActionListener{
     private final int screen_size = n_of_blocks * block_size;
     private final int player_model_speed = 6;
 
-    private Image player_model;
+    private Image pmodel;
 
     private int pmx, pmy, pmdx, pmdy;
     private int req_dx, req_dy;
@@ -52,7 +57,7 @@ public class GameModel extends JPanel implements ActionListener{
     public GameModel() {
         loadImages();
         initVariables();
-        addKeyListener(newTAdapter());
+        addKeyListener(new TAdapter());
         setFocusable(true);
         initGame();
     }
@@ -68,10 +73,52 @@ public class GameModel extends JPanel implements ActionListener{
 
         timer = new Timer(5, this);
         timer.restart();
+    }
+
+    private void initGame(){
+        initLevel();
+        speed = 3;
 
     }
 
-    class Tadapter extends KeyAdapter{
+    private void initLevel(){
+        int i;
+        for (i = 0; i < n_of_blocks * n_of_blocks; i++){
+            screenData[i] = level[i];
+        }
+    }
+    private void ppos(){
+        pmx = 3 * block_size;
+        pmy = 7 * block_size;
+        pmdx = 0;
+        pmdy = 0;
+        req_dx = 0;
+        req_dy = 0;
+    }
+
+    public void paintsquare(Graphics g) {
+        paintsquare(g);
+        
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(Color.RED);
+        g2d.fillRect(0, 0, d.width, d.height );
+
+        drawMaze(g2d);
+
+        if (inGame){
+            playGame(g2d);
+        }
+        else{
+            showIntroScreen(g2d);
+        }
+        Toolkit.getDefaultToolkit().sync();
+    }
+
+    private void playGame(Graphics2D g2d){
+
+    }
+
+    class TAdapter extends KeyAdapter{
         public void keyPressed(KeyEvent e) {
             int key = e.getKeyCode();
 
@@ -95,9 +142,16 @@ public class GameModel extends JPanel implements ActionListener{
                 else if (key == KeyEvent.VK_ESCAPE){
                     inGame = false;
                 }
+                else{
+                    if (key == KeyEvent.VK_SPACE){
+                        inGame = true;
+                        initGame();
+                    }
+                }
         }
     }
     public void actionPerformed(ActionEvent e){
-        
+        repaint();
     }
+}
 }

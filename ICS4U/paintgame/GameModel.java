@@ -27,7 +27,7 @@ public class GameModel extends JPanel implements ActionListener {
     private final int screen_size = n_of_blocks * block_size;
     private final int player_model_speed = 6;
 
-    private Image pmodel;
+    private Image pm;
 
     private int pmx, pmy, pmdx, pmdy;
     private int req_dx, req_dy;
@@ -63,7 +63,7 @@ public class GameModel extends JPanel implements ActionListener {
     }
 
     private void loadImages(){
-        pmodel = new ImageIcon("/ICS4U/paintgame/player_model .gif").getImage();
+        pm = new ImageIcon("/ICS4U/paintgame/player_model .gif").getImage();
         
     }
 
@@ -100,7 +100,7 @@ public class GameModel extends JPanel implements ActionListener {
         paintsquare(g);
         
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(Color.RED);
+        g2d.setColor(Color.WHITE);
         g2d.fillRect(0, 0, d.width, d.height );
 
         drawMaze(g2d);
@@ -115,8 +115,37 @@ public class GameModel extends JPanel implements ActionListener {
     }
 
     private void playGame(Graphics2D g2d){
+        movepm();
+        drawpm(g2d);
+        checkMaze();
+    }
+
+    public void movepm(){
+        int pos;
+        short ch;
+
+        if(pmx % block_size == 0 && pmy % block_size == 0) {
+            pos = pmx / block_size + n_of_blocks * (int)(pmy/block_size);
+                ch = screenData[pos];
+            if ((ch & 16) !=0){
+                screenData[pos] = (short) (ch & 15);
+            }
+            if(req_dx !=0 || req_dy !=0) {
+                if (!((req_dx == -1 && req_dy == 0 && (ch & 1) !=0)
+                || (req_dy == 1 && req_dy == 0 && (ch & 4) != 0)
+                || (req_dx == 0 && req_dy)
+            }
+        }
+    }
+
+    public void drawpm(){
 
     }
+
+    public void checkMaze(){
+
+    }
+
 
     class TAdapter extends KeyAdapter{
         public void keyPressed(KeyEvent e) {

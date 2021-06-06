@@ -257,9 +257,9 @@ public class GameModel extends JPanel implements ActionListener {
                 }
             }
 }
-    
+    }
     public void actionPerformed(ActionEvent e){
         repaint();
     }
 }
-}
+

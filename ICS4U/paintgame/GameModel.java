@@ -11,30 +11,29 @@ import java.awt.event.KeyAdapter;
 import java.awt. event.KeyEvent;
 import java.awt.Graphics2D;
 import java.awt.Graphics;
+import java.awt.BasicStroke;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import javax.lang.model.util.ElementScanner6;
+
 import javax.swing.ImageIcon;
 
 public class GameModel extends JPanel implements ActionListener {
 
     private Dimension d;
-    private final Font smallFont = new Font("Proxima Nova", Font.BOLD, 14);
+    //private final Font smallFont = new Font("Proxima Nova", Font.BOLD, 14);
     private boolean inGame = false;
 
     private final int block_size = 24;
     private final int n_of_blocks =15;
     private final int screen_size = n_of_blocks * block_size;
-    private final int player_model_speed = 6;
+    private final int pm_speed = 6;
 
     private Image pm;
 
     private int pmx, pmy, pmdx, pmdy;
     private int req_dx, req_dy;
 
-    private int speed = 3;
-    private short [] screenData;
-    private Timer timer;
+    
     
     private final short level[] = {
         19, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 22,
@@ -54,6 +53,10 @@ public class GameModel extends JPanel implements ActionListener {
         25, 24, 24, 24, 26, 24, 24, 24, 24, 24, 24, 24, 24, 24, 28
     };
 
+    private int speed = 3;
+    private short [] screenData;
+    private Timer timer;
+
     public GameModel() {
         loadImages();
         initVariables();
@@ -67,13 +70,20 @@ public class GameModel extends JPanel implements ActionListener {
         
     }
 
+    //public void showIntroScreen(Graphics2D g2d){
+      //  String
+    //}
+
     private void initVariables() {
         screenData = new short[n_of_blocks*n_of_blocks];
-        d = new Dimension (400,400);
+        d = new Dimension (400, 400);
+
 
         timer = new Timer(5, this);
-        timer.restart();
+        timer.start();
     }
+
+    
 
     private void initGame(){
         initLevel();
@@ -86,7 +96,10 @@ public class GameModel extends JPanel implements ActionListener {
         for (i = 0; i < n_of_blocks * n_of_blocks; i++){
             screenData[i] = level[i];
         }
+        ppos();
     }
+
+
     private void ppos(){
         pmx = 3 * block_size;
         pmy = 7 * block_size;
@@ -108,9 +121,9 @@ public class GameModel extends JPanel implements ActionListener {
         if (inGame){
             playGame(g2d);
         }
-        else{
-            showIntroScreen(g2d);
-        }
+        //else{
+           // showIntroScreen(g2d);
+        //  }
         Toolkit.getDefaultToolkit().sync();
     }
 
@@ -133,18 +146,83 @@ public class GameModel extends JPanel implements ActionListener {
             if(req_dx !=0 || req_dy !=0) {
                 if (!((req_dx == -1 && req_dy == 0 && (ch & 1) !=0)
                 || (req_dy == 1 && req_dy == 0 && (ch & 4) != 0)
-                || (req_dx == 0 && req_dy)
+                || (req_dx == 0 && req_dy == -1 && (ch & 2)!=0)
+                || (req_dx == 0 && req_dy == 1 && (ch & 8)!=0))){
+                pmdx = req_dx;
+                pmdy = req_dy;
             }
+        }
+        if ((pmdx == -1 && pmdy == 0 && (ch & 1) != 0)
+        || (pmdx == 1 && pmdy ==0 && (ch & 2) !=0)
+        || (pmdx == 0 && pmdy == 1 && (ch & 8) !=0)){
+            pmdx = 0;
+            pmdy = 0;
+        }
+    }
+    pmx = pmx + pm_speed * pmdx;
+    pmy = pmy + pm_speed * pmdy;
+    }
+
+    public void drawpm(Graphics2D g2d){
+        if (req_dx == -1){
+        g2d.drawImage(pm, pmx + 1, pmy + 1, this);
+        }else if (req_dx == 1){
+            g2d.drawImage(pm, pmx + 1, pmy + 1, this);
+        }else if (req_dy == -1){
+            g2d.drawImage(pm, pmx + 1, pmy + 1, this);
+        }else if (req_dy == 1){
+            g2d.drawImage(pm, pmx + 1, pmy + 1, this);
         }
     }
 
-    public void drawpm(){
-
-    }
-
     public void checkMaze(){
+        int i = 0;
+        boolean finished = true;
 
-    }
+        while (i < n_of_blocks * n_of_blocks && finished) {
+            if ((screenData[i] & 48 ) !=0){
+                finished = false;
+            }
+        } i++;
+        //if (finished){
+            //insert next level code here
+            //}
+
+        }
+        public void drawMaze(Graphics2D g2d){
+            short i = 0;
+            int x,y;
+
+            for (y = 0; y<screen_size; y +=block_size){
+                for (x = 0; x < screen_size; x += block_size) {
+
+                    g2d.setColor(new Color(0,0,0));
+                    g2d.setStroke(new BasicStroke(5));
+
+                    if ((screenData[i] == 0)){
+                        g2d.fillRect(x, y, block_size, block_size);
+                    }
+                    if ((screenData[i] & 1) !=0){
+                        g2d.drawLine(x, y, x, y + block_size);
+                    }
+                    if ((screenData[i] & 2) !=0){
+                        g2d.drawLine(x, y, x + block_size -1, y);
+                    }
+                    if ((screenData[i] & 4) !=0){
+                        g2d.drawLine(x + block_size -1, y, x + block_size -1, y + block_size -1);
+                    }
+                    if ((screenData[i] & 8) !=0){
+                        g2d.drawLine(x, y + block_size-1, x + block_size-1, y + block_size-1);
+                    }
+                    if ((screenData[i] & 16) !=0){
+                        g2d.setColor(new Color( 255,0,0));
+                        g2d.fillRect(x, y, block_size, block_size);
+                    }
+
+                    i++;         
+                }
+            }
+     }
 
 
     class TAdapter extends KeyAdapter{
@@ -168,7 +246,7 @@ public class GameModel extends JPanel implements ActionListener {
                     req_dx = 0;
                     req_dy = 1;
                 }
-                else if (key == KeyEvent.VK_ESCAPE){
+                else if (key == KeyEvent.VK_ESCAPE && timer.isRunning()){
                     inGame = false;
                 }
                 else{
@@ -177,8 +255,9 @@ public class GameModel extends JPanel implements ActionListener {
                         initGame();
                     }
                 }
-        }
-    }
+            }
+}
+    
     public void actionPerformed(ActionEvent e){
         repaint();
     }

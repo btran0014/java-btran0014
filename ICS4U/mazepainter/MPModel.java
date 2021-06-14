@@ -62,7 +62,7 @@ public class MPModel extends JPanel implements ActionListener {
     
     
     private void importModel() {
-        player_model = new ImageIcon("java-btran0014/ICS4U/paintgame/player_model.jpg").getImage();
+        player_model = new ImageIcon("ICS4U/mazepainter/player_model.jpg").getImage();
     }
        private void initVariables() {
 

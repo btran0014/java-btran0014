@@ -10,14 +10,14 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class MPModel extends JPanel implements ActionListener {
-    private Dimension dimension;
-    private final Font smallFont = new Font("Arial", Font.BOLD, 14);
-    private boolean inGame = false;
+    private Dimension dimension; // game dimensions
+    private final Font smallFont = new Font("Arial", Font.BOLD, 14); // font 
+    private boolean inGame = false; // in game variable
 
-    private final int blocksize = 24;
-    private final int numofblocks = 15;
-    private final int screensize = numofblocks * blocksize;
-    private final int playerspeed = 6;
+    private final int blocksize = 24; // size of block
+    private final int numofblocks = 15; // number of blocks
+    private final int screensize = numofblocks * blocksize; // size of the screen in terms of blocks
+    private final int playerspeed = 8; // speed of player model
 
     private int score;
 
@@ -80,19 +80,23 @@ public class MPModel extends JPanel implements ActionListener {
 
     private void showIntroScreen(Graphics2D g2d) {
  
-    	String start = "SPACE BAR TO PLAY";
-        g2d.setColor(Color.black);
-        g2d.drawString(start, (screensize)/4, 150);
+    	String instructions = "SPACE BAR TO PLAY.";
+        String instructions2 = "ARROW KEYS TO MOVE.";
+        String instructions3 = "ESCAPE TO PAUSE.";
+        g2d.setColor(Color.gray);
+        g2d.drawString(instructions, (screensize)/4, 150);
+        g2d.drawString(instructions2, (screensize)/4-10, 170);
+        g2d.drawString(instructions3, (screensize)/4+5, 190);
     }
 
     private void drawScore(Graphics2D g) {
         g.setFont(smallFont);
         g.setColor(Color.black);
-        String s = "SCORE: " + score;
-        g.drawString(s, screensize / 2 + 96, screensize + 16);
+        String scorestring = "SCORE: " + score;
+        g.drawString(scorestring, screensize / 2 + 96, screensize + 16);
 
     }
-
+    // check the maze and 
     private void checkMaze() {
 
         int i = 0;
@@ -112,7 +116,7 @@ public class MPModel extends JPanel implements ActionListener {
         }
     }
 
-
+    // player movement algorithm
     private void movePlayer() {
 
         int pos;
@@ -137,7 +141,6 @@ public class MPModel extends JPanel implements ActionListener {
                 }
             }
 
-            // Check for standstill
             if ((playerdx == -1 && playerdy == 0 && (ch & 1) != 0)
                     || (playerdx == 1 && playerdy == 0 && (ch & 4) != 0)
                     || (playerdx == 0 && playerdy == -1 && (ch & 2) != 0)
@@ -150,6 +153,7 @@ public class MPModel extends JPanel implements ActionListener {
         playery = playery + playerspeed * playerdy;
     }
 
+    //print the player model according to the keystroke
     private void drawPlayer(Graphics2D g2d) {
 
         if (req_dx == -1) {
@@ -162,7 +166,7 @@ public class MPModel extends JPanel implements ActionListener {
         	g2d.drawImage(player_model, playerx + 1, playery + 1, this);
         }
     }
-
+    // draw the maze, set the obstacles and paint the tiles
     private void drawMaze(Graphics2D g2d) {
 
         short i = 0;
@@ -179,7 +183,7 @@ public class MPModel extends JPanel implements ActionListener {
                  }
 
                 if ((screenData[i] & 16) != 0) { 
-                    g2d.setColor(new Color(255,255,255));
+                    g2d.setColor(Color.white);
                     g2d.fillRect(x, y, blocksize, blocksize);
                }
                 i++;
@@ -203,15 +207,15 @@ public class MPModel extends JPanel implements ActionListener {
 
     private void continueLevel() {
 
-        playerx = 7 * blocksize;  //start position
-        playery = 11 * blocksize;
+        playerx = 1 * blocksize;  //start position
+        playery = 1 * blocksize;
         playerdx = 0;	//reset direction move
         playerdy = 0;
         req_dx = 0;		// reset direction controls
         req_dy = 0;
     }
 
- 
+    // paint the entire screen a specific colour and show intro
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -233,8 +237,7 @@ public class MPModel extends JPanel implements ActionListener {
         g2d.dispose();
     }
 
-
-    //controls
+    //player control and movement + other key strokes
     class TAdapter extends KeyAdapter {
 
         @Override

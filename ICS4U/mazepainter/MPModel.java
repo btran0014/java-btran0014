@@ -13,7 +13,6 @@ public class MPModel extends JPanel implements ActionListener {
     private Dimension dimension;
     private final Font smallFont = new Font("Arial", Font.BOLD, 14);
     private boolean inGame = false;
-    private boolean rungame = false;
 
     private final int blocksize = 24;
     private final int numofblocks = 15;
@@ -21,7 +20,6 @@ public class MPModel extends JPanel implements ActionListener {
     private final int playerspeed = 6;
 
     private int score;
-    private int[] dx, dy;
 
     private Image player_model;
 
@@ -47,7 +45,6 @@ public class MPModel extends JPanel implements ActionListener {
     };
 
 
-    private int currentSpeed = 3;
     private short[] screenData;
     private Timer timer;
 
@@ -62,14 +59,13 @@ public class MPModel extends JPanel implements ActionListener {
     
     
     private void importModel() {
-        player_model = new ImageIcon("ICS4U/mazepainter/player_model.jpg").getImage();
+        player_model = new ImageIcon("ICS4U/mazepainter/player_model.png").getImage();
     }
        private void initVariables() {
 
         screenData = new short[numofblocks * numofblocks];
         dimension = new Dimension(400, 400);
-        dx = new int[4];
-        dy = new int[4];
+    
         
         timer = new Timer(40, this);
         timer.start();
@@ -84,7 +80,7 @@ public class MPModel extends JPanel implements ActionListener {
 
     private void showIntroScreen(Graphics2D g2d) {
  
-    	String start = "Press SPACE to start";
+    	String start = "SPACE BAR TO PLAY";
         g2d.setColor(Color.black);
         g2d.drawString(start, (screensize)/4, 150);
     }
@@ -92,7 +88,7 @@ public class MPModel extends JPanel implements ActionListener {
     private void drawScore(Graphics2D g) {
         g.setFont(smallFont);
         g.setColor(Color.black);
-        String s = "Score: " + score;
+        String s = "SCORE: " + score;
         g.drawString(s, screensize / 2 + 96, screensize + 16);
 
     }
@@ -194,7 +190,6 @@ public class MPModel extends JPanel implements ActionListener {
     private void initGame() {
         score = 0;
         initLevel();
-        currentSpeed = 3;
     }
 
     private void initLevel() {
@@ -214,7 +209,6 @@ public class MPModel extends JPanel implements ActionListener {
         playerdy = 0;
         req_dx = 0;		// reset direction controls
         req_dy = 0;
-        rungame = false;
     }
 
  

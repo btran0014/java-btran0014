@@ -19,7 +19,7 @@ public class MPModel extends JPanel implements ActionListener {
     private final int screensize = numofblocks * blocksize; // size of the screen in terms of blocks
     private final int playerspeed = 8; // speed of player model
 
-    private int score;
+    private int /*winscore,*/ score;
 
     private Image player_model;
 
@@ -27,7 +27,25 @@ public class MPModel extends JPanel implements ActionListener {
     private int req_dx, req_dy;
 
     private final short levelData[] = {
-    	19, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 22,
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+        0, 27, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 22,  0,
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 21,  0, 
+        0, 19, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 28,  0,
+        0, 21,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+        0, 25, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 22,  0,
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 21,  0,
+        0, 19, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 28,  0,
+        0, 21,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+        0, 25, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 22,  0,
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 21,  0, 
+        0, 19, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 28,  0,
+        0, 21,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+        0, 25, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 30,  0,
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,     
+    };
+
+    /*
+        19, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 22,
         17, 16, 16, 16, 16, 24, 16, 16, 16, 16, 16, 16, 16, 16, 20,
         25, 24, 24, 24, 28, 0, 17, 16, 16, 16, 16, 16, 16, 16, 20,
         0,  0,  0,  0,  0,  0, 17, 16, 16, 16, 16, 16, 16, 16, 20,
@@ -42,8 +60,7 @@ public class MPModel extends JPanel implements ActionListener {
         17, 16, 16, 20, 0, 17, 16, 16, 16, 16, 16, 16, 16, 16, 20,
         17, 16, 16, 20, 0, 17, 16, 16, 16, 16, 16, 16, 16, 16, 20,
         25, 24, 24, 24, 26, 24, 24, 24, 24, 24, 24, 24, 24, 24, 28
-    };
-
+    */
 
     private short[] screenData;
     private Timer timer;
@@ -67,7 +84,7 @@ public class MPModel extends JPanel implements ActionListener {
         dimension = new Dimension(400, 400);
     
         
-        timer = new Timer(40, this);
+        timer = new Timer(0, this);
         timer.start();
     }
 
@@ -75,6 +92,7 @@ public class MPModel extends JPanel implements ActionListener {
         movePlayer();
         drawPlayer(g2d);
         checkMaze();
+      //  endGame(g2d);
 
     }
 
@@ -96,7 +114,17 @@ public class MPModel extends JPanel implements ActionListener {
         g.drawString(scorestring, screensize / 2 + 96, screensize + 16);
 
     }
-    // check the maze and 
+    
+   // private void endGame(Graphics2D g2d){
+        //while (winscore == 194);
+       // System.out.print(winscore);
+        //String instructions = "YOU WIN!";
+      //  g2d.setColor(Color.gray);
+        //g2d.drawString(instructions, (screensize)/4, 150);
+    //}
+
+
+    // check the maze
     private void checkMaze() {
 
         int i = 0;
@@ -116,7 +144,7 @@ public class MPModel extends JPanel implements ActionListener {
         }
     }
 
-    // player movement algorithm
+    // player movement algorithm and collision
     private void movePlayer() {
 
         int pos;
@@ -129,6 +157,7 @@ public class MPModel extends JPanel implements ActionListener {
             if ((ch & 16) != 0) {
                 screenData[pos] = (short) (ch & 15);
                 score++;
+                //winscore++;
             }
 
             if (req_dx != 0 || req_dy != 0) {

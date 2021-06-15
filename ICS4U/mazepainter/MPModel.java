@@ -27,6 +27,7 @@ public class MPModel extends JPanel implements ActionListener {
     private int req_dx, req_dy;
 
     private final short levelData[] = {
+        
         0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
         0, 27, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 22,  0,
         0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 21,  0, 
@@ -42,9 +43,8 @@ public class MPModel extends JPanel implements ActionListener {
         0, 21,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
         0, 25, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 30,  0,
         0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,     
-    };
 
-    /*
+     /*
         19, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 22,
         17, 16, 16, 16, 16, 24, 16, 16, 16, 16, 16, 16, 16, 16, 20,
         25, 24, 24, 24, 28, 0, 17, 16, 16, 16, 16, 16, 16, 16, 20,
@@ -61,6 +61,9 @@ public class MPModel extends JPanel implements ActionListener {
         17, 16, 16, 20, 0, 17, 16, 16, 16, 16, 16, 16, 16, 16, 20,
         25, 24, 24, 24, 26, 24, 24, 24, 24, 24, 24, 24, 24, 24, 28
     */
+    };
+
+  
 
     private short[] screenData;
     private Timer timer;

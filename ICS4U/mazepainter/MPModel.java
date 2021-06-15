@@ -92,7 +92,6 @@ public class MPModel extends JPanel implements ActionListener {
         movePlayer();
         drawPlayer(g2d);
         checkMaze();
-      //  endGame(g2d);
 
     }
 
@@ -114,14 +113,6 @@ public class MPModel extends JPanel implements ActionListener {
         g.drawString(scorestring, screensize / 2 + 96, screensize + 16);
 
     }
-    
-   // private void endGame(Graphics2D g2d){
-        //while (winscore == 194);
-       // System.out.print(winscore);
-        //String instructions = "YOU WIN!";
-      //  g2d.setColor(Color.gray);
-        //g2d.drawString(instructions, (screensize)/4, 150);
-    //}
 
 
     // check the maze
@@ -157,7 +148,6 @@ public class MPModel extends JPanel implements ActionListener {
             if ((ch & 16) != 0) {
                 screenData[pos] = (short) (ch & 15);
                 score++;
-                //winscore++;
             }
 
             if (req_dx != 0 || req_dy != 0) {
@@ -224,6 +214,7 @@ public class MPModel extends JPanel implements ActionListener {
         score = 0;
         initLevel();
     }
+
 
     private void initLevel() {
         int i;

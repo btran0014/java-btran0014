@@ -12,27 +12,26 @@ import javax.swing.Timer;
 
 public class MPModel extends JPanel implements ActionListener {
     // blocks and size variables
-    private Dimension dimension; // game dimensions
+    private Dimension dimension; 
     private boolean inGame = false; // in game variable
-    private final int blocksize = 24; // size of block
-    private final int numofblocks = 15; // number of blocks
-    private final int screensize = numofblocks * blocksize; // size of the screen in terms of blocks
+    private final int blocksize = 24; 
+    private final int numofblocks = 15; 
+    private final int screensize = numofblocks * blocksize; 
 
     // in game variable values
-    private final int playerspeed = 8; // speed of player model
+    private final int playerspeed = 8; 
 
     // things printed and things needed in order to print to screen
-    private final Font smallFont = new Font("Arial", Font.BOLD, 14); // font
+    private final Font smallFont = new Font("Arial", Font.BOLD, 14); 
     private int score;
     private Image player_model;
 
     // player control variables
     private int playerx, playery, playerdx, playerdy;
-    private int req_dx, req_dy;
+    private int move_x, move_y;
 
     // level data (borders and blocks) in form of array
     private final short levelData1[] = {
-
         // square level
         0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
         0, 19, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 22,  0, 
@@ -90,8 +89,28 @@ public class MPModel extends JPanel implements ActionListener {
     };
 
     private final short levelData4[] = {
-        // ??? (test) level
-        19, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 22,
+        // (test) level
+
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+        0, 27, 26, 26, 26, 26, 22,  0,  0,  0, 19, 18, 18, 22,  0, 
+        0,  0,  0,  0,  0,  0, 17, 18, 18, 18, 16, 16, 16, 28,  0,
+        0, 27, 18, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,  0,  0,
+        0, 25, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 22,  0,
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 21,  0,
+        0, 27, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 28,  0,
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+
+         
+
+
+        /*19, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 22,
         17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,
         17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,
         17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,
@@ -106,6 +125,8 @@ public class MPModel extends JPanel implements ActionListener {
         17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,
         17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,
         25, 24, 24, 24, 26, 24, 24, 24, 24, 24, 24, 24, 24, 24, 28 
+        */
+
     };
 
     private final short levelData5[] = {
@@ -128,25 +149,25 @@ public class MPModel extends JPanel implements ActionListener {
 
     };
 
-    private short levelDatax[];
+    private short levelData[];
 
     Random rand = new Random();
     int levelSelector = rand.nextInt(6);{
 
     if(levelSelector==1){
-        levelDatax = levelData1;
+        levelData = levelData1;
 
     }else if(levelSelector==2){
-        levelDatax = levelData2;
+        levelData = levelData2;
 
     }else if(levelSelector==3){
-        levelDatax = levelData3;
+        levelData = levelData3;
 
     }else if(levelSelector==4){
-        levelDatax = levelData4;
+        levelData = levelData4;
 
     }else{
-        levelDatax = levelData5;
+        levelData = levelData5;
     }
 }
     
@@ -181,7 +202,7 @@ public class MPModel extends JPanel implements ActionListener {
     private void playGame(Graphics2D g2d) {
         movePlayer();
         drawPlayer(g2d);
-        checkMaze();
+        
 
     }
 
@@ -190,10 +211,12 @@ public class MPModel extends JPanel implements ActionListener {
         String instructions = "SPACE BAR TO PLAY.";
         String instructions2 = "ARROW KEYS TO MOVE.";
         String instructions3 = "ESCAPE TO PAUSE.";
+        String instructions4 = "PAINT THE AREA!";
         g2d.setColor(Color.gray);
         g2d.drawString(instructions, (screensize) / 4, 150);
         g2d.drawString(instructions2, (screensize) / 4 - 10, 170);
         g2d.drawString(instructions3, (screensize) / 4 + 5, 190);
+        g2d.drawString(instructions4, (screensize) / 4 + 5, 210);
     }
 
     private void printScore(Graphics2D g) {
@@ -204,53 +227,34 @@ public class MPModel extends JPanel implements ActionListener {
 
     }
 
-    // check the maze
-    private void checkMaze() {
-
-        int i = 0;
-        boolean finished = true;
-
-        while (i < numofblocks * numofblocks && finished) {
-
-            if ((screenData[i]) != 0) {
-                finished = false;
-            }
-            i++;
-        }
-
-        if (finished) {
-            score += 50;
-            initLevel();
-        }
-    }
-
+  
     // player movement algorithm and collision
     private void movePlayer() {
 
-        int pos;
-        short ch;
+        int position;
+        short model_position;
 
         if (playerx % blocksize == 0 && playery % blocksize == 0) {
-            pos = playerx / blocksize + numofblocks * (int) (playery / blocksize);
-            ch = screenData[pos];
+            position = playerx / blocksize + numofblocks * (int) (playery / blocksize);
+            model_position = screenData[position];
 
-            if ((ch & 16) != 0) {
-                screenData[pos] = (short) (ch & 15);
+            if ((model_position & 16) != 0) {
+                screenData[position] = (short) (model_position & 15);
                 score++;
             }
 
-            if (req_dx != 0 || req_dy != 0) {
-                if (!((req_dx == -1 && req_dy == 0 && (ch & 1) != 0) || (req_dx == 1 && req_dy == 0 && (ch & 4) != 0)
-                        || (req_dx == 0 && req_dy == -1 && (ch & 2) != 0)
-                        || (req_dx == 0 && req_dy == 1 && (ch & 8) != 0))) {
-                    playerdx = req_dx;
-                    playerdy = req_dy;
+            if (move_x != 0 || move_y != 0) {
+                if (!((move_x == -1 && move_y == 0 && (model_position & 1) != 0) || (move_x == 1 && move_y == 0 && (model_position & 4) != 0)
+                        || (move_x == 0 && move_y == -1 && (model_position & 2) != 0)
+                        || (move_x == 0 && move_y == 1 && (model_position & 8) != 0))) {
+                    playerdx = move_x;
+                    playerdy = move_y;
                 }
             }
 
-            if ((playerdx == -1 && playerdy == 0 && (ch & 1) != 0) || (playerdx == 1 && playerdy == 0 && (ch & 4) != 0)
-                    || (playerdx == 0 && playerdy == -1 && (ch & 2) != 0)
-                    || (playerdx == 0 && playerdy == 1 && (ch & 8) != 0)) {
+            if ((playerdx == -1 && playerdy == 0 && (model_position & 1) != 0) || (playerdx == 1 && playerdy == 0 && (model_position & 4) != 0)
+                    || (playerdx == 0 && playerdy == -1 && (model_position & 2) != 0)
+                    || (playerdx == 0 && playerdy == 1 && (model_position & 8) != 0)) {
                 playerdx = 0;
                 playerdy = 0;
             }
@@ -262,11 +266,11 @@ public class MPModel extends JPanel implements ActionListener {
     // print the player model according to the keystroke
     private void drawPlayer(Graphics2D g2d) {
 
-        if (req_dx == -1) {
+        if (move_x == -1) {
             g2d.drawImage(player_model, playerx + 1, playery + 1, this);
-        } else if (req_dx == 1) {
+        } else if (move_x == 1) {
             g2d.drawImage(player_model, playerx + 1, playery + 1, this);
-        } else if (req_dy == -1) {
+        } else if (move_y == -1) {
             g2d.drawImage(player_model, playerx + 1, playery + 1, this);
         } else {
             g2d.drawImage(player_model, playerx + 1, playery + 1, this);
@@ -284,7 +288,7 @@ public class MPModel extends JPanel implements ActionListener {
 
                 g2d.setColor(Color.black);
 
-                if ((levelDatax[i] == 0)) {
+                if ((levelData[i] == 0)) {
                     g2d.fillRect(x, y, blocksize, blocksize);
                 }
 
@@ -307,7 +311,7 @@ public class MPModel extends JPanel implements ActionListener {
     private void initLevel() {
         int i;
         for (i = 0; i < numofblocks * numofblocks; i++) {
-            screenData[i] = levelDatax[i];
+            screenData[i] = levelData[i];
         }
 
         continueLevel();
@@ -319,8 +323,8 @@ public class MPModel extends JPanel implements ActionListener {
         playery = 1 * blocksize;
         playerdx = 0; // reset direction move
         playerdy = 0;
-        req_dx = 0; // reset direction controls
-        req_dy = 0;
+        move_x = 0; // reset direction controls
+        move_y = 0;
     }
 
     // paint the entire screen a specific colour and show intro
@@ -348,24 +352,24 @@ public class MPModel extends JPanel implements ActionListener {
     // keyadapter for keystroke input
     class TAdapter extends KeyAdapter {
 
-        @Override
+        
         // player control and movement + other key strokes
         public void keyPressed(KeyEvent e) {
             int key = e.getKeyCode();
 
             if (inGame) {
-                if (key == KeyEvent.VK_LEFT) {
-                    req_dx = -1;
-                    req_dy = 0;
-                } else if (key == KeyEvent.VK_RIGHT) {
-                    req_dx = 1;
-                    req_dy = 0;
-                } else if (key == KeyEvent.VK_UP) {
-                    req_dx = 0;
-                    req_dy = -1;
-                } else if (key == KeyEvent.VK_DOWN) {
-                    req_dx = 0;
-                    req_dy = 1;
+                if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) {
+                    move_x = -1;
+                    move_y = 0;
+                } else if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) {
+                    move_x = 1;
+                    move_y = 0;
+                } else if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
+                    move_x = 0;
+                    move_y = -1;
+                } else if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
+                    move_x = 0;
+                    move_y = 1;
                 } else if (key == KeyEvent.VK_ESCAPE && timer.isRunning()) {
                     inGame = false;
                 }
@@ -378,7 +382,6 @@ public class MPModel extends JPanel implements ActionListener {
         }
     }
 
-    @Override
     // repaint the screen when action performed (updates screen)
     public void actionPerformed(ActionEvent e) {
         repaint();

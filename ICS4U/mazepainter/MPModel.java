@@ -1,5 +1,6 @@
 package mazepainter;
 
+import java.util.Random;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -108,7 +109,29 @@ public class MPModel extends JPanel implements ActionListener {
         25, 24, 24, 24, 26, 24, 24, 24, 24, 24, 24, 24, 24, 24, 28
     };
 
-    private final short levelDatax[] = levelData4;
+    private final short levelData5[] = {
+        //multisquare level
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+        0, 19, 26, 22,  0,  0,  0, 19, 26, 22,  0,  0,  0,  0,  0,
+        0, 21,  0, 21,  0,  0,  0, 21,  0, 21,  0,  0,  0,  0,  0,
+        0, 25, 26, 16, 26, 26, 26, 16, 26, 28,  0,  0,  0,  0,  0,
+        0,  0,  0, 21,  0,  0,  0, 21,  0,  0,  0,  0,  0,  0,  0,
+        0, 19, 26, 28,  0,  0,  0, 25, 26, 22,  0,  0,  0,  0,  0,
+        0, 21,  0,  0,  0,  0,  0,  0,  0, 21,  0,  0,  0,  0,  0,
+        0, 25, 26, 26, 26, 26, 26, 26, 26, 28,  0,  0,  0,  0,  0,
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+
+
+        
+    };
+
+    private final short levelDatax[] = levelData5;
   
 
 

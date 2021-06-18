@@ -31,7 +31,7 @@ public class MPModel extends JPanel implements ActionListener {
     private int req_dx, req_dy;
 
     //level data (borders and blocks) in form of array
-    private final short levelData[] = {
+    private final short levelData1[] = {
         
         //square level
         0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
@@ -50,7 +50,8 @@ public class MPModel extends JPanel implements ActionListener {
         0, 25, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 28,  0,
         0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0
         
-        /*
+    };
+    private final short levelData2[] = {
         //spiral level
         0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
         0, 27, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 22,  0, 
@@ -67,7 +68,8 @@ public class MPModel extends JPanel implements ActionListener {
         0,  0,  0, 25, 26, 26, 26, 26, 26, 26, 26, 26, 26, 28,  0,
         0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
         0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0
-     
+    };
+    private final short levelData3[] = {
         // zigzag level
         0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
         0, 27, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 22,  0,
@@ -85,6 +87,9 @@ public class MPModel extends JPanel implements ActionListener {
         0, 25, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 30,  0,
         0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0     
 
+    };
+
+    private final short levelData4[] = {
         // ??? level
         19, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 22,
         17, 16, 16, 16, 16, 24, 16, 16, 16, 16, 16, 16, 16, 16, 20,
@@ -101,10 +106,11 @@ public class MPModel extends JPanel implements ActionListener {
         17, 16, 16, 20, 0, 17, 16, 16, 16, 16, 16, 16, 16, 16, 20,
         17, 16, 16, 20, 0, 17, 16, 16, 16, 16, 16, 16, 16, 16, 20,
         25, 24, 24, 24, 26, 24, 24, 24, 24, 24, 24, 24, 24, 24, 28
-     */
     };
 
+    private final short levelDatax[] = levelData4;
   
+
 
     private short[] screenData;
     private Timer timer;
@@ -243,7 +249,7 @@ public class MPModel extends JPanel implements ActionListener {
                 g2d.setColor(Color.black);
             
                 
-                if ((levelData[i] == 0)) { 
+                if ((levelDatax[i] == 0)) { 
                 	g2d.fillRect(x, y, blocksize, blocksize);
                  }
 
@@ -266,7 +272,7 @@ public class MPModel extends JPanel implements ActionListener {
     private void initLevel() {
         int i;
         for (i = 0; i < numofblocks * numofblocks; i++) {
-            screenData[i] = levelData[i];
+            screenData[i] = levelDatax[i];
         }
 
         continueLevel();

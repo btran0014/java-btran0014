@@ -131,9 +131,25 @@ public class MPModel extends JPanel implements ActionListener {
         
     };
 
-    private final short levelDatax[] = levelData5;
-  
-
+    private short levelDatax[];
+    
+    Random rand = new Random();
+    int levelSelector = rand.nextInt(6);
+    
+        
+    if (levelSelector == 1){
+        levelDatax = levelData1;
+    }else if(levelSelector == 2){
+        levelDatax = levelData2;
+    }else if(levelSelector == 3){
+        levelDatax = levelData3;
+    }else if (levelSelector == 4){
+        levelDatax = levelData4;
+    }else{
+        levelDatax = levelData5;
+    }
+    
+}
 
     private short[] screenData;
     private Timer timer;
